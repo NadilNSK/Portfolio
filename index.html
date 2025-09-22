@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style>
-    @import url('https:/fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
     *{
         margin: 0;
@@ -291,6 +291,53 @@
 
 
 
+
+
+    .about 
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 100px 9%;
+        background: #1f242d;
+        color: #fff;
+        text-align: center;
+    }
+
+    .about-info {
+        max-width: 800px;
+    }
+
+    .about-info .heading {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    .about-info .heading span {
+        color: #7cf03d;
+    }
+
+    .about-info h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: #7cf03d;
+    }
+
+    .about-info p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .about-info .highlight {
+        color: #7cf03d;
+        font-weight: 600;
+    }
+
+
+
+
+
   </style>
 </head>
 <body>
@@ -339,13 +386,25 @@
         <div class="home-img">
             <div class="img-box">
                 <div class="img-item">
-                    <img src="profile.png" alt="">
+                    <img src="profile.png" alt="Profile picture of Nadil Nandinu">
                 </div>
             </div>
         </div>
-        <div>
-            
+    </section>
+
+
+    <section class="about" id="about">
+        <div class="about-info">
+            <h2 class="heading">About <span>Me</span></h2>
+            <h3>Software Developer & Designer</h3>
+            <p>
+                I’m Nadil Nandinu, a Computer Science undergraduate passionate about creating innovative software solutions. 
+                I specialize in <span class="highlight">frontend development, programming, and design</span>. 
+                My goal is to combine creativity with technical skills to build projects that make a real impact.
+            </p>
+            <a href="#" class="btn">Read More</a>
         </div>
     </section>
+
 </body>
 </html>
