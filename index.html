@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -15,6 +16,24 @@
         box-sizing: border-box;
         font-family: 'Poppins' , sans-serif;
     }
+
+
+
+    section 
+    {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease-out;
+    }
+
+    section.show 
+    {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+
+
 
     a
     {
@@ -302,6 +321,7 @@
         background: #1f242d;
         color: #fff;
         text-align: center;
+        min-height: 100vh;
     }
 
     .about-info {
@@ -336,6 +356,167 @@
 
 
 
+    html 
+    {
+        scroll-behavior: smooth;
+    }
+
+
+
+
+
+
+
+    .projects 
+    {
+        background: #1f242d;
+        color: #fff;
+        padding: 100px 9%;
+        text-align: center;
+        min-height: 100vh;
+    }
+
+    .projects-header .heading 
+    {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .projects-header .heading span 
+    {
+        color: #7cf03d;
+    }
+
+    .projects-header p 
+    {
+        color: #aaa;
+        margin-bottom: 50px;
+        font-size: 16px;
+    }
+
+    .projects-container 
+    {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .project-card 
+    {
+        background: #2a2f3a;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(124, 240, 61, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-card:hover 
+    {
+        transform: translateY(-10px);
+        box-shadow: 0 0 20px rgba(124, 240, 61, 0.4);
+    }
+
+    .project-img img 
+    {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .project-info 
+    {
+        padding: 20px;
+    }
+
+    .project-info h3 
+    {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: #7cf03d;
+    }
+
+    .project-info p 
+    {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #ccc;
+        
+    }
+
+    .project-info .btn 
+    {
+        display: inline-block;
+        padding: 8px 20px;
+        background: #7cf03d;
+        border: 2px solid #7cf03d;
+        border-radius: 30px;
+        color: #1f242d;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .project-info .btn:hover 
+    {
+        background: transparent;
+        color: #7cf03d;
+    }
+
+
+
+
+
+
+    .skills-grid {
+        background: #1f242d;
+        color: #fff;
+        padding: 100px 9%;
+        text-align: center;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .skills-grid .heading {
+        font-size: 40px;
+        margin-bottom: 50px;
+    }
+
+    .skills-grid .heading span {
+        color: #7cf03d;
+    }
+
+    .skills-icons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 30px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .skill-card {
+        background: #2a2f3a;
+        border-radius: 15px;
+        padding: 25px 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 0 10px rgba(124, 240, 61, 0.15);
+    }
+
+    .skill-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 0 20px rgba(124, 240, 61, 0.3);
+    }
+
+    .skill-card img {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 10px;
+    }
+
+    .skill-card p {
+        color: #7cf03d;
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+
 
 
   </style>
@@ -345,11 +526,11 @@
     <nav class="navbar">
         <a href="#" class="logo">Portfolio.</a>
         <ul>
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Service</a></li>
-            <li><a href="#">Contact</a></li>
+            <li class="active"><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills-grid">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
@@ -362,7 +543,7 @@
         <div class="bar" style="--i:1;"></div>
     </div>
 
-    <section class="home">
+    <section class="home" id="home">
         <div class="home-info">
             <h1>Nadil Nandinu</h1>
             <h2>I'm a
@@ -405,6 +586,167 @@
             <a href="#" class="btn">Read More</a>
         </div>
     </section>
+
+
+    <section class="projects" id="projects">
+        <div class="projects-header">
+            <h2 class="heading">My <span>Projects</span></h2>
+            <p>Here are some of the works I’ve built recently.</p>
+        </div>
+
+        <div class="projects-container">
+            <div class="project-card">
+            <div class="project-img">
+                <img src="project1.png" alt="Project 1 screenshot">
+            </div>
+            <div class="project-info">
+                <h3>Portfolio Website</h3>
+                <p>A responsive personal portfolio website built with HTML, CSS, and JavaScript.</p>
+                <a href="#" class="btn">View Project</a>
+            </div>
+            </div>
+
+            <div class="project-card">
+            <div class="project-img">
+                <img src="project2.png" alt="Project 2 screenshot">
+            </div>
+            <div class="project-info">
+                <h3>Library Management System</h3>
+                <p>A web-based system developed with PHP and MySQL to manage library resources.</p>
+                <a href="#" class="btn">View Project</a>
+            </div>
+            </div>
+
+            <div class="project-card">
+            <div class="project-img">
+                <img src="project3.png" alt="Project 3 screenshot">
+            </div>
+            <div class="project-info">
+                <h3>AI Chatbot</h3>
+                <p>An interactive chatbot application using Python and NLP techniques.</p>
+                <a href="#" class="btn">View Project</a>
+            </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="skills-grid" id="skills-grid">
+        <h2 class="heading">My <span>Skills</span></h2>
+
+        <div class="skills-icons">
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" />
+                <p>HTML5</p>
+            </div>
+            <div class="skill-card">  
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" />
+                <p>CSS3</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" />
+                <p>JavaScript</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" />
+                <p>React</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" />
+                <p>Node.js</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" />
+                <p>MongoDB</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" />
+                <p>Tailwind CSS</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" />
+                <p>Git</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" />
+                <p>Java</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" />
+                <p>MySQL</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ballerina/ballerina-original.svg" />
+                <p>Ballerina.io</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" />
+                <p>C</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg" />
+                <p>Bootstrap</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" />
+                <p>Postman</p>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".navbar ul li a");
+
+        // 🔹 Scroll highlight logic
+        window.addEventListener("scroll", () => {
+            let current = "";
+
+            sections.forEach(section => {
+            const sectionTop = section.offsetTop - 150; // adjust navbar height
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                current = section.getAttribute("id");
+            }
+            });
+
+            navLinks.forEach(link => {
+            link.parentElement.classList.remove("active");
+            if (link.getAttribute("href") === "#" + current) {
+                link.parentElement.classList.add("active");
+            }
+            });
+        });
+
+        // 🔹 Section reveal animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+            }
+            });
+        }, { threshold: 0.2 }); // triggers when 20% visible
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        window.addEventListener('load', () => {
+            window.scrollTo(0, 0);
+        });
+    </script>
+
+
 
 </body>
 </html>
