@@ -519,6 +519,80 @@
 
 
 
+
+    .contact {
+        background: #1f242d;
+        padding: 5rem 9%;
+        text-align: center;
+    }
+
+    .contact h2 {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+        color: #fff;
+    }
+
+    .contact .heading span {
+        color: #7cf03d;
+    }
+
+    .contact form {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .contact .input-box {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .contact .input-box input,
+    .contact textarea {
+        width: 100%;
+        padding: 1rem;
+        margin: .7rem 0;
+        background: #323946;
+        border: none;
+        border-radius: .8rem;
+        color: #fff;
+        font-size: 1rem;
+        font-family: "Poppins", sans-serif;
+    }
+
+    .contact .input-box input {
+        width: 48%;
+    }
+
+    .contact textarea {
+        resize: none;
+    }
+
+    .contact .btn {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: .9rem 2rem;
+        border-radius: 4rem;
+        background: #7cf03d;
+        box-shadow: 0 0 1rem #7cf03d;
+        font-size: 1rem;
+        color: #1f242d;
+        font-weight: 600;
+        letter-spacing: .05rem;
+        transition: .3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .contact .btn:hover {
+        box-shadow: none;
+    }
+
+
+
+
+
   </style>
 </head>
 <body>
@@ -698,8 +772,22 @@
 
 
 
+    <section class="contact" id="contact">
+        <h2 class="heading">Contact <span>Me</span></h2>
 
-
+        <form action="#" method="post">
+            <div class="input-box">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+            <div class="input-box">
+                <input type="tel" name="phone" placeholder="Mobile Number">
+                <input type="text" name="subject" placeholder="Email Subject">
+            </div>
+            <textarea name="message" cols="30" rows="8" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+    </section>
 
 
 
