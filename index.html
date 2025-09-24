@@ -590,8 +590,28 @@
     }
 
 
+    
+    .popup {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #1f242d;   /* dark background */
+        color: #7cf03d;        /* green text */
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        padding: 15px 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(124, 240, 61, 0.3);
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.5s ease;
+        z-index: 9999;
+    }
 
-
+    .popup.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
   </style>
 </head>
@@ -676,7 +696,7 @@
             <div class="project-info">
                 <h3>Portfolio Website</h3>
                 <p>A responsive personal portfolio website built with HTML, CSS, and JavaScript.</p>
-                <a href="#" class="btn">View Project</a>
+                <a href="https://github.com/NadilNSK/Portfolio" class="btn" target="_blank">View Project</a>
             </div>
             </div>
 
@@ -768,6 +788,10 @@
             </div>
         </div>
     </section>
+
+    <div id="popup" class="popup">
+        <p id="popup-message">Message Sent Successfully!</p>
+    </div>
 
 
 
