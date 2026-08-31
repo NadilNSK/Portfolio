@@ -238,10 +238,12 @@
     {
        content: '';
        position: absolute;
-       width: 500px;
-       height: 500px;
+       top: -50%;
+       left: -50%;
+       width: 200%;
+       height: 200%;
        background: conic-gradient(transparent,transparent,transparent,#7cf03d);
-       transform: rotate(0deg);
+       transform-origin: center;
        animation: rotate-border 10s linear infinite;
     }
 
@@ -252,8 +254,11 @@
 
     @keyframes rotate-border
     {
+        0%{
+            transform: rotate(0deg);
+        }
         100%{
-            transform:rotate(320deg) ;
+            transform: rotate(360deg);
         }
     }
 
@@ -785,6 +790,10 @@
             <div class="skill-card">
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" />
                 <p>Postman</p>
+            </div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" />
+                <p>Flutter</p>
             </div>
         </div>
     </section>
