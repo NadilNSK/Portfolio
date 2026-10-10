@@ -52,10 +52,17 @@ export const projectsData = [
   },
   {
     id: 4,
-    title: "New Project Title",
-    description: "Description of your new awesome project goes here.",
+    title: "TraffiX",
+    description: "An AI-powered traffic monitoring and violation detection system that uses real-time video analytics to manage intersections.",
     image: "/project4.png",
-    link: "#"
+    link: "https://github.com/NadilNSK/Capstone-Project"
+  },
+  {
+    id: 5,
+    title: "Viduneth",
+    description: "A comprehensive education platform for Advanced and Ordinary Level students, featuring physical and hybrid classrooms with 24/7 AI tutor intelligence.",
+    image: "/project5.png",
+    link: "https://github.com/NadilNSK/Viduneth"
   }
 ];
 
