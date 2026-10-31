@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createPortraitPixels } from '../src/animations/portraitPixels.js';
 import { requestEffectFrame, cancelEffectFrame } from '../src/animations/effectFrames.js';
 
-function mockBrowser(t, { weak = true } = {}) {
+function mockBrowser(t, { weak = true, coarse = false } = {}) {
   const descriptors = new Map();
   const install = (key, value) => {
     descriptors.set(key, Object.getOwnPropertyDescriptor(globalThis, key));
@@ -51,6 +51,7 @@ function mockBrowser(t, { weak = true } = {}) {
   };
   const window = {
     devicePixelRatio: 3,
+    matchMedia: () => ({ matches: coarse }),
     requestAnimationFrame(callback) { const id = ++nextFrame; frames.set(id, callback); return id; },
     cancelAnimationFrame(id) { frames.delete(id); },
   };
@@ -239,4 +240,24 @@ test('resizing disposes safely and a later hover can initialize at the new size'
     assert.equal(browser.canvas.hidden, false);
     assert.equal(browser.reads, 2, 'one new cached sample only after resize reinitialization');
   } finally { original.dispose(); resized?.dispose(); }
+});
+
+test('touch-style tap sessions scatter then repair with conservative coarse-pointer budgets', t => {
+  const browser = mockBrowser(t, { weak: false, coarse: true });
+  const controller = createPortraitPixels(browser.image, browser.canvas, browser.host);
+  try {
+    assert.equal(browser.canvas.width, 360, 'powerful touch devices still cap DPR at one');
+    controller.enter(center);
+    controller.leave();
+    browser.step(100);
+    const removed = browser.removals().length;
+    assert.ok(removed > 0 && removed <= 200, 'tap uses the conservative 800-particle budget');
+    controller.enter(center);
+    controller.leave();
+    for (let time = 150; time <= 1300; time += 50) browser.step(time);
+    assert.equal(browser.restorations().length, removed);
+    assert.equal(browser.canvas.hidden, true, 'second tap restores original photo');
+    assert.equal(browser.frames.size, 0);
+    assert.equal(browser.reads, 1);
+  } finally { controller.dispose(); }
 });

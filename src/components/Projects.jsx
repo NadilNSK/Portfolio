@@ -10,9 +10,9 @@ export default function Projects() {
 
       <div className="projects-container">
         {projectsData.map((project) => (
-          <div key={project.id} className="project-card">
+          <div key={project.id} className="project-card" style={{ '--card-delay': `${Math.min(project.id - 1, 6) * 55}ms` }}>
             <div className="project-img">
-              <img src={project.image} alt={`${project.title} screenshot`} />
+              <img src={project.image} alt={`${project.title} screenshot`} loading="lazy" decoding="async" />
             </div>
             <div className="project-info">
               <h3>{project.title}</h3>

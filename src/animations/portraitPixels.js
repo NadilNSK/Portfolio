@@ -8,7 +8,7 @@ export function createPortraitPixels(image, canvas, host) {
   if (!ctx) throw new Error('Canvas unavailable');
   const size = Math.round(image.getBoundingClientRect().width);
   if (!size || !image.naturalWidth) throw new Error('Photo unavailable');
-  const weak = (navigator.hardwareConcurrency || 4) <= 4 || (navigator.deviceMemory || 8) <= 4;
+  const weak = window.matchMedia?.('(pointer: coarse)').matches || (navigator.hardwareConcurrency || 4) <= 4 || (navigator.deviceMemory || 8) <= 4;
   const columns = weak ? 48 : 72;
   const maxHoles = weak ? 600 : 1200;
   const maxParticles = weak ? 800 : 1600;

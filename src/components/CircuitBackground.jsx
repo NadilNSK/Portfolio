@@ -13,8 +13,8 @@ export default function CircuitBackground() {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const preference = window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
-    const touch = window.matchMedia('(any-pointer: coarse)');
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const coarsePointer = window.matchMedia('(pointer: coarse)');
     let branches = [];
     let sparks = [];
     let frame = 0;
@@ -24,27 +24,31 @@ export default function CircuitBackground() {
     let height = 0;
     let pixelRatio = 1;
     let lastPaint = -Infinity;
+    let tap;
+    let lastScroll = window.scrollY;
+    let lastScrollBurst = -Infinity;
     const weak = (navigator.hardwareConcurrency || 4) <= 4;
-    const ratioCap = weak ? 1 : 1.5;
-    const enabled = () => preference.matches && !touch.matches && !document.hidden;
+    const limited = () => weak || coarsePointer.matches;
+    const ratioCap = () => limited() ? 1 : 1.5;
+    const enabled = () => !preference.matches && !document.hidden;
 
     // World coordinates anchor old trails to the page as the viewport scrolls.
     const makeBranch = (x, y, direction, born, depth = 0) => {
-      if (branches.length >= (weak ? 16 : MAX_BRANCHES)) return;
+      if (branches.length >= (coarsePointer.matches ? 10 : weak ? 16 : MAX_BRANCHES)) return;
       const points = [{ x, y, distance: 0 }];
       let distance = 0;
-      const segments = Math.floor(random(3, 7));
+      const segments = Math.floor(random(3, limited() ? 5 : 7));
       for (let i = 0; i < segments; i++) {
         direction += Math.floor(random(-2, 3));
         const angle = direction * Math.PI / 4;
-        const length = random(18, 48);
+        const length = limited() ? random(14, 32) : random(18, 48);
         x += Math.cos(angle) * length;
         y += Math.sin(angle) * length;
         distance += length;
         points.push({ x, y, distance });
       }
       const forkIndex = Math.floor(random(1, points.length - 1));
-      branches.push({ points, distance, born, speed: random(.22, .36), lifetime: random(1600, 2300), detail: Math.floor(random(0, 3)), depth, direction, forkIndex, forked: depth > 0 });
+      branches.push({ points, distance, born, speed: random(.22, .36), lifetime: limited() ? random(1100, 1700) : random(1600, 2300), detail: Math.floor(random(0, 3)), depth, direction, forkIndex, forked: depth > 0 });
     };
 
     const pointAt = (branch, distance) => {
@@ -76,12 +80,13 @@ export default function CircuitBackground() {
       branches = [];
       sparks = [];
       lastPointer = null;
+      tap = undefined;
       ctx.clearRect(0, 0, width, height);
     };
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      pixelRatio = Math.min(window.devicePixelRatio || 1, ratioCap);
+      pixelRatio = Math.min(window.devicePixelRatio || 1, ratioCap());
       canvas.width = Math.round(width * pixelRatio);
       canvas.height = Math.round(height * pixelRatio);
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -90,7 +95,7 @@ export default function CircuitBackground() {
     const draw = (now) => {
       frame = 0;
       if (!enabled()) { reset(); return; }
-      if (Math.min(window.devicePixelRatio || 1, ratioCap) !== pixelRatio) { resize(); return; }
+      if (Math.min(window.devicePixelRatio || 1, ratioCap()) !== pixelRatio) { resize(); return; }
       if (now - lastPaint < 1000 / 30) {
         frame = requestAnimationFrame(draw);
         return;
@@ -118,7 +123,7 @@ export default function CircuitBackground() {
         const fork = branch.points[branch.forkIndex];
         if (!branch.forked && grown >= fork.distance) {
           branch.forked = true;
-          makeBranch(fork.x, fork.y, branch.direction + (Math.random() < .5 ? -2 : 2), now, 1);
+          if (!coarsePointer.matches || Math.random() < .35) makeBranch(fork.x, fork.y, branch.direction + (Math.random() < .5 ? -2 : 2), now, 1);
         }
         // Two bright packets travel outward, constrained to the grown trace.
         for (const delay of [0, 340]) {
@@ -126,7 +131,7 @@ export default function CircuitBackground() {
           if (head > 0 && head <= grown) {
             ctx.globalAlpha = .65 * fade;
             ctx.lineWidth = 1.6;
-            ctx.shadowBlur = weak ? 0 : 2;
+            ctx.shadowBlur = limited() ? 0 : 2;
             stroke(branch, Math.max(0, head - 20), head);
           }
         }
@@ -171,19 +176,13 @@ export default function CircuitBackground() {
       // Stop the animation loop entirely once the last trail has expired.
       if (branches.length || sparks.length) frame = requestAnimationFrame(draw);
     };
-    const move = (event) => {
-      if (!enabled() || event.pointerType !== 'mouse') return;
-      const x = event.clientX + window.scrollX;
-      const y = event.clientY + window.scrollY;
-      const now = performance.now();
-      if (lastPointer && Math.hypot(x - lastPointer.x, y - lastPointer.y) < 7) return;
-      if (now - lastEmission < 65) return;
-      lastPointer = { x, y };
+    const emit = (x, y, now, gentle = false) => {
+      if (!enabled() || now - lastEmission < (gentle ? 180 : 65)) return;
       lastEmission = now;
       const direction = Math.floor(random(0, 8));
       makeBranch(x, y, direction, now);
-      makeBranch(x, y, direction + 4, now);
-      if (sparks.length < MAX_SPARKS) {
+      if (!gentle) makeBranch(x, y, direction + 4, now);
+      if (sparks.length < (limited() ? 4 : MAX_SPARKS)) {
         const angle = random(0, Math.PI * 2);
         const points = [{ x, y }];
         for (let i = 1; i <= 7; i++) {
@@ -194,24 +193,62 @@ export default function CircuitBackground() {
       }
       if (!frame) frame = requestAnimationFrame(draw);
     };
-    const forgetPointer = () => { lastPointer = null; };
+    const move = event => {
+      if (tap && tap.id === event.pointerId && Math.hypot(event.clientX - tap.x, event.clientY - tap.y) > 12) tap = undefined;
+      if (!enabled() || event.pointerType !== 'mouse') return;
+      const x = event.clientX + window.scrollX;
+      const y = event.clientY + window.scrollY;
+      if (lastPointer && Math.hypot(x - lastPointer.x, y - lastPointer.y) < 7) return;
+      lastPointer = { x, y };
+      emit(x, y, performance.now(), coarsePointer.matches);
+    };
+    const down = event => {
+      if (!enabled() || !event.isPrimary || !['touch', 'pen'].includes(event.pointerType)) return;
+      tap = { id: event.pointerId, x: event.clientX, y: event.clientY, at: performance.now(), scroll: window.scrollY };
+    };
+    const up = event => {
+      const start = tap;
+      tap = undefined;
+      if (!start || start.id !== event.pointerId || !enabled()) return;
+      const now = performance.now();
+      if (now - start.at > 500 || Math.hypot(event.clientX - start.x, event.clientY - start.y) > 12 || Math.abs(window.scrollY - start.scroll) > 6) return;
+      emit(event.clientX + window.scrollX, event.clientY + window.scrollY, now, true);
+    };
+    const scroll = () => {
+      tap = undefined;
+      const delta = window.scrollY - lastScroll;
+      const now = performance.now();
+      if (!enabled() || !coarsePointer.matches || Math.abs(delta) < 50 || now - lastScrollBurst < 550) return;
+      lastScroll = window.scrollY;
+      lastScrollBurst = now;
+      emit(window.scrollX + width * random(.18, .82), window.scrollY + height * (delta > 0 ? .72 : .28), now, true);
+    };
+    const forgetPointer = () => { lastPointer = null; tap = undefined; };
     resize();
     window.addEventListener('pointermove', move, { passive: true });
+    window.addEventListener('pointerdown', down, { passive: true });
+    window.addEventListener('pointerup', up, { passive: true });
+    window.addEventListener('pointercancel', forgetPointer, { passive: true });
+    window.addEventListener('scroll', scroll, { passive: true });
     window.addEventListener('resize', resize);
     window.addEventListener('blur', forgetPointer);
     document.documentElement.addEventListener('pointerleave', forgetPointer);
     document.addEventListener('visibilitychange', reset);
     preference.addEventListener('change', reset);
-    touch.addEventListener('change', reset);
+    coarsePointer.addEventListener('change', resize);
     return () => {
       reset();
       window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerdown', down);
+      window.removeEventListener('pointerup', up);
+      window.removeEventListener('pointercancel', forgetPointer);
+      window.removeEventListener('scroll', scroll);
       window.removeEventListener('resize', resize);
       window.removeEventListener('blur', forgetPointer);
       document.documentElement.removeEventListener('pointerleave', forgetPointer);
       document.removeEventListener('visibilitychange', reset);
       preference.removeEventListener('change', reset);
-      touch.removeEventListener('change', reset);
+      coarsePointer.removeEventListener('change', resize);
     };
   }, []);
 
