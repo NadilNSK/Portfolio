@@ -28,6 +28,30 @@ Form submissions are processed by FormSubmit. See its
 
 ## Development
 
+### Education and certifications
+
+Edit `educationData` and `certificationsData` in `src/data/portfolioData.js` to
+maintain the Education section. Each entry supports `qualification`, `level`,
+`status`, `institution` (or `issuer`), `location`, `period`, `summary`,
+`highlights`, and `credentialUrl`. Omitted fields are hidden.
+
+For detailed coursework, add `curriculum: [{ title, items: [...] }]` and/or
+`semesters: [{ id, title, courses: [...] }]`. Semester courses can be strings or
+objects with `code`, `title`, `description`, and `credits`. The section includes
+expandable details and a semester selector when these fields are populated.
+
+The entries reflect the supplied CV: the current Computing and Information
+Systems degree, Advanced Level studies, and three certificates/achievements.
+Credential links are preserved from the PDF. The reference recording is used
+for layout and hierarchy only.
+
+### CV download
+
+The original CV is served from `public/nadil-nandinu-cv.pdf`. The hero button uses
+`heroData.cvUrl` and `heroData.cvFilename` in `src/data/portfolioData.js` to
+download it as `Nadil-Nandinu-CV.pdf`. To update the CV later, replace that PDF
+and keep the same path, or update these two data fields.
+
 Run `npm install`, then `npm run dev`. Use `npm run build` and `npm run lint` to
 check the project; run `node --test tests/contact.test.mjs` for contact request
 validation.

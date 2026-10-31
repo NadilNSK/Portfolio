@@ -25,7 +25,7 @@ export default function Hero() {
           </h2>
           <p>{heroData.description}</p>
           <div className="btn-sci">
-            <a href="#" className="btn">Download CV</a>
+            <a href={heroData.cvUrl} download={heroData.cvFilename} type="application/pdf" className="btn">Download CV</a>
             <div className="sci">
               {heroData.socials.map((social, idx) => (
                 <a key={idx} href={social.link} aria-label={social.icon.replace('bx bxl-', '')}>
