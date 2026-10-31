@@ -5,6 +5,7 @@ import About from './components/About';
 import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
+import CircuitBackground from './components/CircuitBackground';
 import './index.css';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
 
   return (
     <>
+      <CircuitBackground />
       <Navbar activeSection={activeSection} />
       <Hero />
       <About />

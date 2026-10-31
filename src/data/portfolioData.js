@@ -10,10 +10,10 @@ export const heroData = {
   name: "Nadil Nandinu",
   description: "Computer Science student passionate about creating innovative solutions and exploring the frontiers of artificial intelligence.",
   roles: [
-    { text: "Frontend Developer", i: 4 },
-    { text: "Programmer", i: 3 },
-    { text: "Designer", i: 2 },
-    { text: "Software Developer", i: 1 }
+    { text: " Frontend Developer", i: 4 },
+    { text: " Programmer", i: 3 },
+    { text: " Designer", i: 2 },
+    { text: " Software Developer", i: 1 }
   ],
   socials: [
     { icon: "bx bxl-github", link: "#" },

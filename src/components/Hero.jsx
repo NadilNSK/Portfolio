@@ -1,4 +1,5 @@
 import { heroData } from '../data/portfolioData';
+import InteractivePortrait from './InteractivePortrait';
 
 export default function Hero() {
   return (
@@ -13,7 +14,7 @@ export default function Hero() {
         <div className="home-info">
           <h1>{heroData.name}</h1>
           <h2>
-            I'm a
+            I'm a{' '}
             {heroData.roles.map((role, idx) => (
               <span key={idx} style={{ "--i": role.i }} data-text={role.text}>
                 {role.text}
@@ -34,11 +35,7 @@ export default function Hero() {
         </div>
 
         <div className="home-img">
-          <div className="img-box">
-            <div className="img-item">
-              <img src="/profile.png" alt={`Profile of ${heroData.name}`} />
-            </div>
-          </div>
+          <InteractivePortrait alt={`Profile of ${heroData.name}`} />
         </div>
       </section>
     </>
