@@ -19,10 +19,8 @@ export const heroData = {
     { text: " Software Developer", i: 1 }
   ],
   socials: [
-    { icon: "bx bxl-github", link: "#" },
-    { icon: "bx bxl-linkedin", link: "#" },
-    { icon: "bx bxl-twitter", link: "#" },
-    { icon: "bx bxl-youtube", link: "#" }
+    { icon: "bx bxl-github", link: "https://github.com/NadilNSK" },
+    { icon: "bx bxl-linkedin", link: "https://www.linkedin.com/in/nadil-nandinu-40905132b/" }
   ]
 };
 

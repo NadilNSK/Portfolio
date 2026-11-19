@@ -28,7 +28,13 @@ export default function Hero() {
             <a href={heroData.cvUrl} download={heroData.cvFilename} type="application/pdf" className="btn">Download CV</a>
             <div className="sci">
               {heroData.socials.map((social, idx) => (
-                <a key={idx} href={social.link} aria-label={social.icon.replace('bx bxl-', '')}>
+                <a
+                  key={idx}
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.icon.replace('bx bxl-', '')}
+                >
                   <i className={social.icon}></i>
                 </a>
               ))}
